@@ -59,7 +59,7 @@
                 <p class="mt-5 border-l-2 border-amber-300 pl-3 text-sm text-white/70">Calendário e torneios abaixo são demonstrativos; consulte a organização para datas e inscrições oficiais.</p>
             </div>
 
-            <form class="mb-6 grid gap-4 border-b border-white/15 pb-6 sm:grid-cols-2 lg:grid-cols-4" data-competition-filters>
+            <form id="competition-filters" class="mb-6 grid gap-4 border-b border-white/15 pb-6 sm:grid-cols-2 lg:grid-cols-4" data-competition-filters>
                 <div class="sm:col-span-2 lg:col-span-1">
                     <label for="competition-search" class="mb-1.5 block text-sm font-semibold text-white/80">Buscar</label>
                     <input id="competition-search" type="search" placeholder="Nome ou jogo"
@@ -95,11 +95,11 @@
             </form>
 
             <div class="mb-4 flex items-center justify-between gap-3">
-                <p class="text-sm text-white/70" aria-live="polite"><span data-competition-count>3</span> competições</p>
+                <p class="text-sm text-white/70" aria-live="polite"><span id="competition-count">3</span> competições</p>
                 <a href="classificacao.html" class="text-sm font-semibold text-cyan-200 underline decoration-cyan-200/50 underline-offset-4 hover:text-white">Ver classificação <span aria-hidden="true">→</span></a>
             </div>
 
-            <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-competition-list>
+            <ul id="competition-list" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-competition-list>
                 <li data-competition data-mode="team" data-game="valorant" data-status="open" data-search="copa nordeste fps valorant equipe">
                     <article class="flex h-full flex-col border-t-2 border-emerald-300 bg-white/[0.07] p-5 transition-colors hover:bg-white/[0.11]">
                         <div class="flex items-start justify-between gap-3">
@@ -155,7 +155,7 @@
                     </article>
                 </li>
             </ul>
-            <p class="hidden border border-white/15 px-5 py-8 text-center text-white/70" data-competition-empty>Nenhuma competição encontrada. Tente ajustar os filtros.</p>
+            <p id="competition-empty" class="hidden border border-white/15 px-5 py-8 text-center text-white/70" data-competition-empty>Nenhuma competição encontrada. Tente ajustar os filtros.</p>
         </section>
     </main>
     <footer id="contato" class="bg-purple-950/80 text-white p-6 mt-auto">

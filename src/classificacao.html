@@ -54,7 +54,7 @@
                 <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
                     <div>
                         <h3 id="tabela-titulo" class="text-xl font-bold bg-gradient-to-r from-purple-300 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">Resultados parciais por equipe</h3>
-                        <p class="mt-1 text-sm text-white/65"><span data-reported-fixtures>--</span> partidas do Nordeste Camp consideradas.</p>
+                        <p class="mt-1 text-sm text-white/65"><span id="reported-fixtures">--</span> partidas do Nordeste Camp consideradas.</p>
                     </div>
                     <span class="border-l-2 border-amber-300 pl-3 text-sm text-white/65">Dados demonstrativos</span>
                 </div>
@@ -71,7 +71,7 @@
                                 <th scope="col" class="w-14 px-2 py-3 text-right sm:w-20 sm:px-4">Pts</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/10">
+                        <tbody id="team-standings" class="divide-y divide-white/10">
                             <tr class="bg-cyan-300/[0.08]" data-team-standing="Nordeste Camp">
                                 <th scope="row" class="px-2 py-4 font-bold sm:px-4">Nordeste Camp<span data-team-mobile-stats class="mt-1 block text-xs font-normal text-white/60 sm:hidden">Calculando...</span></th>
                                 <td data-team-stat="played" class="hidden px-4 py-4 text-center sm:table-cell">--</td>
@@ -114,27 +114,27 @@
                 <dl class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
                     <div>
                         <dt class="text-sm text-white/70">Pontos totais da equipe</dt>
-                        <dd class="mt-1 text-2xl font-extrabold"><span data-team-points>--</span></dd>
+                        <dd class="mt-1 text-2xl font-extrabold"><span id="team-points">--</span></dd>
                     </div>
                     <div>
                         <dt class="text-sm text-white/70">Vitórias por equipe</dt>
-                        <dd class="mt-1 text-2xl font-extrabold"><span data-team-wins>--</span> de <span data-team-matches>--</span></dd>
+                        <dd class="mt-1 text-2xl font-extrabold"><span id="team-wins">--</span> de <span id="team-matches">--</span></dd>
                     </div>
                     <div>
                         <dt class="text-sm text-white/70">Categoria da equipe</dt>
-                        <dd class="mt-1 text-xl font-extrabold" data-team-classification aria-live="polite">Calculando...</dd>
+                        <dd id="team-classification" class="mt-1 text-xl font-extrabold" aria-live="polite">Calculando...</dd>
                     </div>
                     <div>
                         <dt class="text-sm text-white/70">Pontos individuais</dt>
-                        <dd class="mt-1 text-2xl font-extrabold"><span data-solo-points>--</span></dd>
+                        <dd class="mt-1 text-2xl font-extrabold"><span id="solo-points">--</span></dd>
                     </div>
                     <div>
                         <dt class="text-sm text-white/70">Vitórias individuais</dt>
-                        <dd class="mt-1 text-2xl font-extrabold"><span data-solo-wins>--</span> de <span data-solo-matches>--</span></dd>
+                        <dd class="mt-1 text-2xl font-extrabold"><span id="solo-wins">--</span> de <span id="solo-matches">--</span></dd>
                     </div>
                     <div>
                         <dt class="text-sm text-white/70">Média por rodada</dt>
-                        <dd class="mt-1 text-2xl font-extrabold"><span data-team-average>--</span></dd>
+                        <dd class="mt-1 text-2xl font-extrabold"><span id="team-average">--</span></dd>
                     </div>
                 </dl>
                 <p class="mt-4 border-t border-white/15 pt-3 text-sm text-white/75">
@@ -193,7 +193,7 @@
                                 <td class="hidden px-4 py-4 text-center sm:table-cell">4</td>
                                 <td class="px-2 py-4 text-right font-bold sm:px-4">6</td>
                             </tr>
-                            <tr data-campaign-team="Nordeste Camp" data-matches="6" data-wins="1" data-points="3">
+                            <tr id="solo-result" data-campaign-team="Nordeste Camp" data-matches="6" data-wins="1" data-points="3">
                                 <td class="px-2 py-4 font-semibold text-white/70 sm:px-4">4</td>
                                 <th scope="row" class="break-words px-2 py-4 font-semibold sm:px-4">Ana Souza<span class="mt-1 block text-xs font-normal text-white/60 sm:hidden">6J · 1V · 5D</span></th>
                                 <td class="break-words px-2 py-4 text-xs text-white/75 sm:px-4 sm:text-sm">Nordeste Camp</td>
@@ -213,60 +213,60 @@
             </div>
             <ol class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <li>
-                    <article data-match data-opponent-team="Sertão Fighters" data-team-score="2" data-opponent-score="0" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
+                    <article id="match-1" data-match data-opponent-team="Sertão Fighters" data-team-score="2" data-opponent-score="0" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
                         <div class="flex items-center justify-between gap-3">
                             <h3 class="font-bold">Rodada 1 · 1º turno</h3>
-                            <span data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
+                            <span id="match-1-result" data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
                         </div>
                         <p class="mt-4 text-sm text-white/70">Nordeste Camp <span aria-hidden="true">vs.</span><span class="sr-only">contra</span> Sertão Fighters</p>
                         <p data-score-display class="mt-1 text-2xl font-extrabold" aria-label="Nordeste Camp 2, Sertão Fighters 0">2 <span class="text-base font-medium text-white/60">–</span> 0</p>
                     </article>
                 </li>
                 <li>
-                    <article data-match data-opponent-team="Agreste Force" data-team-score="1" data-opponent-score="3" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
+                    <article id="match-2" data-match data-opponent-team="Agreste Force" data-team-score="1" data-opponent-score="3" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
                         <div class="flex items-center justify-between gap-3">
                             <h3 class="font-bold">Rodada 2 · 1º turno</h3>
-                            <span data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
+                            <span id="match-2-result" data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
                         </div>
                         <p class="mt-4 text-sm text-white/70">Nordeste Camp <span aria-hidden="true">vs.</span><span class="sr-only">contra</span> Agreste Force</p>
                         <p data-score-display class="mt-1 text-2xl font-extrabold" aria-label="Nordeste Camp 1, Agreste Force 3">1 <span class="text-base font-medium text-white/60">–</span> 3</p>
                     </article>
                 </li>
                 <li>
-                    <article data-match data-opponent-team="Bahia Titans" data-team-score="3" data-opponent-score="1" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
+                    <article id="match-3" data-match data-opponent-team="Bahia Titans" data-team-score="3" data-opponent-score="1" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
                         <div class="flex items-center justify-between gap-3">
                             <h3 class="font-bold">Rodada 3 · 1º turno</h3>
-                            <span data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
+                            <span id="match-3-result" data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
                         </div>
                         <p class="mt-4 text-sm text-white/70">Nordeste Camp <span aria-hidden="true">vs.</span><span class="sr-only">contra</span> Bahia Titans</p>
                         <p data-score-display class="mt-1 text-2xl font-extrabold" aria-label="Nordeste Camp 3, Bahia Titans 1">3 <span class="text-base font-medium text-white/60">–</span> 1</p>
                     </article>
                 </li>
                 <li>
-                    <article data-match data-opponent-team="Bahia Titans" data-team-score="7" data-opponent-score="1" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
+                    <article id="match-4" data-match data-opponent-team="Bahia Titans" data-team-score="7" data-opponent-score="1" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
                         <div class="flex items-center justify-between gap-3">
                             <h3 class="font-bold">Rodada 4 · 2º turno</h3>
-                            <span data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
+                            <span id="match-4-result" data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
                         </div>
                         <p class="mt-4 text-sm text-white/70">Nordeste Camp <span aria-hidden="true">vs.</span><span class="sr-only">contra</span> Bahia Titans</p>
                         <p data-score-display class="mt-1 text-2xl font-extrabold" aria-label="Nordeste Camp 7, Bahia Titans 1">7 <span class="text-base font-medium text-white/60">–</span> 1</p>
                     </article>
                 </li>
                 <li>
-                    <article data-match data-opponent-team="Sertão Fighters" data-team-score="2" data-opponent-score="1" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
+                    <article id="match-5" data-match data-opponent-team="Sertão Fighters" data-team-score="2" data-opponent-score="1" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
                         <div class="flex items-center justify-between gap-3">
                             <h3 class="font-bold">Rodada 5 · 2º turno</h3>
-                            <span data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
+                            <span id="match-5-result" data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
                         </div>
                         <p class="mt-4 text-sm text-white/70">Nordeste Camp <span aria-hidden="true">vs.</span><span class="sr-only">contra</span> Sertão Fighters</p>
                         <p data-score-display class="mt-1 text-2xl font-extrabold" aria-label="Nordeste Camp 2, Sertão Fighters 1">2 <span class="text-base font-medium text-white/60">–</span> 1</p>
                     </article>
                 </li>
                 <li>
-                    <article data-match data-opponent-team="Agreste Force" data-team-score="3" data-opponent-score="0" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
+                    <article id="match-6" data-match data-opponent-team="Agreste Force" data-team-score="3" data-opponent-score="0" class="h-full rounded-xl border border-white/15 bg-white/10 p-5 shadow-lg">
                         <div class="flex items-center justify-between gap-3">
                             <h3 class="font-bold">Rodada 6 · 2º turno</h3>
-                            <span data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
+                            <span id="match-6-result" data-match-result class="rounded-full px-3 py-1 text-sm font-semibold" aria-live="polite">Calculando...</span>
                         </div>
                         <p class="mt-4 text-sm text-white/70">Nordeste Camp <span aria-hidden="true">vs.</span><span class="sr-only">contra</span> Agreste Force</p>
                         <p data-score-display class="mt-1 text-2xl font-extrabold" aria-label="Nordeste Camp 3, Agreste Force 0">3 <span class="text-base font-medium text-white/60">–</span> 0</p>

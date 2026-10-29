@@ -1,134 +1,165 @@
-// Calcula a classificação parcial com os placares confirmados do torneio por equipes.
-const partidas = [...document.querySelectorAll("[data-match]")];
+const equipes = [
+	{ nome: "Nordeste Camp", jogos: 0, vitorias: 0, empates: 0, derrotas: 0, pontos: 0 },
+	{ nome: "Sertão Fighters", jogos: 0, vitorias: 0, empates: 0, derrotas: 0, pontos: 0 },
+	{ nome: "Bahia Titans", jogos: 0, vitorias: 0, empates: 0, derrotas: 0, pontos: 0 },
+	{ nome: "Agreste Force", jogos: 0, vitorias: 0, empates: 0, derrotas: 0, pontos: 0 },
+];
 
-if (partidas.length > 0) {
-	const linhasEquipes = [...document.querySelectorAll("[data-team-standing]")];
-	const estatisticasEquipes = new Map(
-		linhasEquipes.map((linha) => [
-			linha.dataset.teamStanding,
-			{ played: 0, wins: 0, draws: 0, losses: 0, points: 0 },
-		]),
-	);
-	const equipeNordeste = estatisticasEquipes.get("Nordeste Camp");
+const partidas = [
+	document.getElementById("match-1"),
+	document.getElementById("match-2"),
+	document.getElementById("match-3"),
+	document.getElementById("match-4"),
+	document.getElementById("match-5"),
+	document.getElementById("match-6"),
+];
+
+function buscarEquipe(nomeEquipe) {
+	for (const equipe of equipes) {
+		if (equipe.nome === nomeEquipe) {
+			return equipe;
+		}
+	}
+	return null;
+}
+
+function calcularMedia(pontos, jogos) {
+	if (jogos === 0) {
+		return 0;
+	}
+	return pontos / jogos;
+}
+
+function definirClassificacao(vitorias) {
+	if (vitorias >= 4) {
+		return "Campeã";
+	} else if (vitorias >= 2) {
+		return "Competitiva";
+	} else {
+		return "Em treinamento";
+	}
+}
+
+function calcularResultado(placarEquipe, placarAdversario) {
+	if (placarEquipe > placarAdversario) {
+		return "vitoria";
+	} else if (placarEquipe < placarAdversario) {
+		return "derrota";
+	} else {
+		return "empate";
+	}
+}
+
+function atualizarClassificacao() {
+	const equipeNordeste = buscarEquipe("Nordeste Camp");
 	let placaresInformados = 0;
 
-	for (const partida of partidas) {
-		const placarEquipe = Number(partida.dataset.teamScore);
-		const placarAdversario = Number(partida.dataset.opponentScore);
-		const adversario = estatisticasEquipes.get(partida.dataset.opponentTeam);
-		const elementoResultado = partida.querySelector("[data-match-result]");
-		const elementoPlacar = partida.querySelector("[data-score-display]");
+	for (let indice = 0; indice < partidas.length; indice += 1) {
+		const partida = partidas[indice];
 
-		if (!Number.isFinite(placarEquipe) || !Number.isFinite(placarAdversario) || !adversario) {
-			elementoResultado.textContent = "Placar inválido";
+		if (partida === null) {
 			continue;
 		}
 
+		const placarEquipe = Number(partida.dataset.teamScore);
+		const placarAdversario = Number(partida.dataset.opponentScore);
+		const adversario = buscarEquipe(partida.dataset.opponentTeam);
+		const resultado = calcularResultado(placarEquipe, placarAdversario);
+		const textoResultado = document.getElementById(`match-${indice + 1}-result`);
+
 		placaresInformados += 1;
-		elementoPlacar.textContent = `${placarEquipe} – ${placarAdversario}`;
-		elementoPlacar.setAttribute(
-			"aria-label",
-			`Nordeste Camp ${placarEquipe}, ${partida.dataset.opponentTeam} ${placarAdversario}`,
-		);
-		equipeNordeste.played += 1;
-		adversario.played += 1;
+		equipeNordeste.jogos += 1;
+		adversario.jogos += 1;
 
-		if (placarEquipe > placarAdversario) {
-			equipeNordeste.wins += 1;
-			equipeNordeste.points += 3;
-			adversario.losses += 1;
-			elementoResultado.textContent = "Vitória · 3 pontos";
-			elementoResultado.classList.add("bg-emerald-950/70", "text-emerald-100");
-		} else if (placarEquipe < placarAdversario) {
-			equipeNordeste.losses += 1;
-			adversario.wins += 1;
-			adversario.points += 3;
-			elementoResultado.textContent = "Derrota · 0 pontos";
-			elementoResultado.classList.add("bg-rose-950/70", "text-rose-100");
+		if (resultado === "vitoria") {
+			equipeNordeste.vitorias += 1;
+			equipeNordeste.pontos += 3;
+			adversario.derrotas += 1;
+			textoResultado.textContent = "Vitória: 3 pontos";
+			textoResultado.classList.add("bg-emerald-950/70", "text-emerald-100");
+		} else if (resultado === "derrota") {
+			equipeNordeste.derrotas += 1;
+			adversario.vitorias += 1;
+			adversario.pontos += 3;
+			textoResultado.textContent = "Derrota: 0 pontos";
+			textoResultado.classList.add("bg-rose-950/70", "text-rose-100");
 		} else {
-			equipeNordeste.draws += 1;
-			equipeNordeste.points += 1;
-			adversario.draws += 1;
-			adversario.points += 1;
-			elementoResultado.textContent = "Empate · 1 ponto";
-			elementoResultado.classList.add("bg-amber-950/70", "text-amber-100");
+			equipeNordeste.empates += 1;
+			equipeNordeste.pontos += 1;
+			adversario.empates += 1;
+			adversario.pontos += 1;
+			textoResultado.textContent = "Empate: 1 ponto";
+			textoResultado.classList.add("bg-amber-950/70", "text-amber-100");
 		}
 	}
 
-	linhasEquipes.forEach((linha) => {
-		const estatisticas = estatisticasEquipes.get(linha.dataset.teamStanding);
-		for (const celula of linha.querySelectorAll("[data-team-stat]")) {
-			celula.textContent = estatisticas[celula.dataset.teamStat];
-		}
-		linha.querySelector("[data-team-mobile-stats]").textContent =
-			`${estatisticas.played}J · ${estatisticas.wins}V · ${estatisticas.draws}E · ${estatisticas.losses}D`;
-	});
-	document.querySelector("[data-reported-fixtures]").textContent = placaresInformados;
-
-	const resultadoIndividual = document.querySelector('[data-campaign-team="Nordeste Camp"]');
-	const partidasIndividuais = Number(resultadoIndividual?.dataset.matches ?? 0);
-	const vitoriasIndividuais = Number(resultadoIndividual?.dataset.wins ?? 0);
-	const pontosIndividuais = Number(resultadoIndividual?.dataset.points ?? 0);
-	const mediaPontosEquipe = equipeNordeste.played === 0 ? 0 : equipeNordeste.points / equipeNordeste.played;
-	let classificacaoEquipe = "Em treinamento";
-
-	if (equipeNordeste.wins >= 4) {
-		classificacaoEquipe = "Campeã";
-	} else if (equipeNordeste.wins >= 2) {
-		classificacaoEquipe = "Competitiva";
+	const corpoTabela = document.getElementById("team-standings");
+	for (let indice = 0; indice < equipes.length; indice += 1) {
+		const equipe = equipes[indice];
+		const linha = corpoTabela.rows[indice];
+		linha.cells[1].textContent = equipe.jogos;
+		linha.cells[2].textContent = equipe.vitorias;
+		linha.cells[3].textContent = equipe.empates;
+		linha.cells[4].textContent = equipe.derrotas;
+		linha.cells[5].textContent = equipe.pontos;
+		linha.cells[0].getElementsByTagName("span")[0].textContent =
+			`${equipe.jogos}J · ${equipe.vitorias}V · ${equipe.empates}E · ${equipe.derrotas}D`;
 	}
 
-	document.querySelector("[data-team-points]").textContent = equipeNordeste.points;
-	document.querySelector("[data-team-wins]").textContent = equipeNordeste.wins;
-	document.querySelector("[data-team-matches]").textContent = equipeNordeste.played;
-	document.querySelector("[data-team-average]").textContent = mediaPontosEquipe.toFixed(1);
-	document.querySelector("[data-team-classification]").textContent = classificacaoEquipe;
-	document.querySelector("[data-solo-points]").textContent = pontosIndividuais;
-	document.querySelector("[data-solo-wins]").textContent = vitoriasIndividuais;
-	document.querySelector("[data-solo-matches]").textContent = partidasIndividuais;
+	const resultadoIndividual = document.getElementById("solo-result");
+	document.getElementById("reported-fixtures").textContent = placaresInformados;
+	document.getElementById("team-points").textContent = equipeNordeste.pontos;
+	document.getElementById("team-wins").textContent = equipeNordeste.vitorias;
+	document.getElementById("team-matches").textContent = equipeNordeste.jogos;
+	document.getElementById("team-average").textContent = calcularMedia(equipeNordeste.pontos, equipeNordeste.jogos).toFixed(1);
+	document.getElementById("team-classification").textContent = definirClassificacao(equipeNordeste.vitorias);
+	document.getElementById("solo-points").textContent = resultadoIndividual.dataset.points;
+	document.getElementById("solo-wins").textContent = resultadoIndividual.dataset.wins;
+	document.getElementById("solo-matches").textContent = resultadoIndividual.dataset.matches;
+
+	console.log("Partidas consideradas:", placaresInformados);
+	console.log("Pontos do Nordeste Camp:", equipeNordeste.pontos);
+	console.log("Classificação do Nordeste Camp:", definirClassificacao(equipeNordeste.vitorias));
 }
 
-// Procura o formulário de filtros; ele só existe na página de competições.
-const formularioFiltros = document.querySelector("[data-competition-filters]");
+function filtrarCompeticoes() {
+	const campoBusca = document.getElementById("competition-search");
+	const filtroModalidade = document.getElementById("competition-mode");
+	const filtroJogo = document.getElementById("competition-game");
+	const filtroSituacao = document.getElementById("competition-status");
+	const listaCompeticoes = document.getElementById("competition-list");
+	const termoBusca = campoBusca.value.trim().toLowerCase();
+	let quantidadeVisivel = 0;
 
+	for (let indice = 0; indice < listaCompeticoes.children.length; indice += 1) {
+		const competicao = listaCompeticoes.children[indice];
+		const combinaBusca = competicao.dataset.search.toLowerCase().includes(termoBusca);
+		const combinaModalidade = filtroModalidade.value === "all" || competicao.dataset.mode === filtroModalidade.value;
+		const combinaJogo = filtroJogo.value === "all" || competicao.dataset.game === filtroJogo.value;
+		const combinaSituacao = filtroSituacao.value === "all" || competicao.dataset.status === filtroSituacao.value;
+		const mostrarCompeticao = combinaBusca && combinaModalidade && combinaJogo && combinaSituacao;
+
+		competicao.hidden = !mostrarCompeticao;
+		if (mostrarCompeticao) {
+			quantidadeVisivel += 1;
+		}
+	}
+
+	document.getElementById("competition-count").textContent = quantidadeVisivel;
+	document.getElementById("competition-empty").classList.toggle("hidden", quantidadeVisivel !== 0);
+	console.log("Competições encontradas:", quantidadeVisivel);
+}
+
+if (document.getElementById("team-standings")) {
+	atualizarClassificacao();
+}
+
+const formularioFiltros = document.getElementById("competition-filters");
 if (formularioFiltros) {
-	// Guarda os controles e os cartões que serão filtrados.
-	const cartoesCompeticao = [...document.querySelectorAll("[data-competition]")];
-	const campoBusca = formularioFiltros.querySelector("[data-filter-search]");
-	const filtroModalidade = formularioFiltros.querySelector("[data-filter-mode]");
-	const filtroJogo = formularioFiltros.querySelector("[data-filter-game]");
-	const filtroSituacao = formularioFiltros.querySelector("[data-filter-status]");
-	const elementoContagem = document.querySelector("[data-competition-count]");
-	const mensagemSemResultados = document.querySelector("[data-competition-empty]");
-
-	// Evita que pressionar Enter envie o formulário e recarregue a página.
-	formularioFiltros.addEventListener("submit", (evento) => evento.preventDefault());
-
-	// Compara cada cartão com todos os filtros e atualiza a lista exibida.
-	const atualizarCompeticoes = () => {
-		const termoBusca = campoBusca.value.trim().toLocaleLowerCase();
-		let quantidadeVisivel = 0;
-
-		for (const cartao of cartoesCompeticao) {
-			// Cada verificação aceita qualquer valor quando o filtro está em "all".
-			const correspondeBusca = cartao.dataset.search.includes(termoBusca);
-			const correspondeModalidade = filtroModalidade.value === "all" || cartao.dataset.mode === filtroModalidade.value;
-			const correspondeJogo = filtroJogo.value === "all" || cartao.dataset.game === filtroJogo.value;
-			const correspondeSituacao = filtroSituacao.value === "all" || cartao.dataset.status === filtroSituacao.value;
-			const deveExibir = correspondeBusca && correspondeModalidade && correspondeJogo && correspondeSituacao;
-
-			// Oculta os cartões que não correspondem e soma os que permanecem visíveis.
-			cartao.hidden = !deveExibir;
-			quantidadeVisivel += Number(deveExibir);
-		}
-
-		// Atualiza a contagem e mostra uma mensagem quando nenhum cartão corresponde.
-		elementoContagem.textContent = quantidadeVisivel;
-		mensagemSemResultados.classList.toggle("hidden", quantidadeVisivel !== 0);
-	};
-
-	// Reaplica os filtros ao digitar ou alterar uma opção.
-	formularioFiltros.addEventListener("input", atualizarCompeticoes);
-	formularioFiltros.addEventListener("change", atualizarCompeticoes);
+	formularioFiltros.addEventListener("submit", function (evento) {
+		evento.preventDefault();
+	});
+	formularioFiltros.addEventListener("input", filtrarCompeticoes);
+	formularioFiltros.addEventListener("change", filtrarCompeticoes);
+	filtrarCompeticoes();
 }
-console.log("O JavaScript está funcionando!");
